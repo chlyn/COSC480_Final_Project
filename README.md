@@ -15,9 +15,9 @@ Built with:
 ## 📚 Course & Team Information
 
 ### Course Details
-- **Course:** COSC 480-101 / 565-101
-- **Instructor:** Dr. Francis Onodueze
-- **Due Date:** Decomeber 15, 2025
+- **Course:** COSC 480-101
+- **Instructor:** Dr. Appolo Tankeh
+- **Due Date:** May 5, 2026
 
 
 ### Group Members
