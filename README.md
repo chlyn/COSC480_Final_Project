@@ -6,9 +6,11 @@
 This is the project description
 
 Built with:
-- **Node.js + Express**
+- **Node.js**
+- **Express.js**
 - **HTML/CSS/JavaScript**
 - **Sequelize**
+- **MySQL**
 
 ---
 
@@ -27,5 +29,75 @@ Built with:
 ---
 
 ## 🛠 Installation & Setup
+
+### 1. Install Node.js
+
+This project requires Node.js to run. You can install it using the following methods:
+
+#### 🔹 Option 1 - Using NVM
+
+Install Node Version Manager (nvm):
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+source ~/.zshrc
+```
+
+Install the latest LTS version of Node.js:
+```bash
+nvm install --lts
+```
+#### 🔹 Option 2 - Direct Install
+
+Download and install Node.js from the official website: https://nodejs.org
+
+### 2. Verify Node.js Installation
+
+Run the following commands:
+```bash
+node -v
+npm -v
+```
+You should see version numbers for both Node.js and npm.
+
+### 3. Clone Repository
+
+```bash
+git clone https://github.com/chlyn/COSC480_Final_Project.git
+cd COSC480_Final_Project
+```
+
+### 4. Install Project Dependencies
+
+```bash
+npm install
+```
+
+### 5. Environment Setup (.env)
+
+Create a `.env` file in the root directory and include the following:
+```env
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=yourpassword
+DB_NAME=your_database_name
+PORT=3000
+```
+
+---
+
+## ⚙️ Features
+
+- Feature 1
+- Feature 2
+- Feature 3
+
+---
+
+## 🚀 How to Use
+1. Create an account
+2. Log in with your credentials
+3. Use the application features (reset password, profile, etc.)
+
+### Demo:
 
 ---
