@@ -79,17 +79,45 @@ Create a `.env` file in the root directory and include the following:
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=yourpassword
-DB_NAME=your_database_name
+
+DB_NAME=cosc480_final_project_db
+DB_TEST_NAME=cosc480_final_test_db
+DB_PROD_NAME=cosc480_final_prod_db
+
+MAIL_USER=your_email@gmail.com
+MAIL_PASS=your_app_password
+
 PORT=3000
+```
+
+### 6. Database Setup (Sequelize)
+
+Create and migrate the database:
+```bash
+npx sequelize-cli db:create
+npx sequelize-cli db:migrate
+```
+
+### 7. Run the Application
+
+```bash
+npm start
+```
+
+Then open:
+```
+http://localhost:3000
 ```
 
 ---
 
 ## ⚙️ Features
 
-- Feature 1
-- Feature 2
-- Feature 3
+- User account creation and login
+- Password hashing using bcrypt
+- Password reset via email
+- Email verification using Nodemailer
+- Database management with Sequelize
 
 ---
 
