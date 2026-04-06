@@ -20,9 +20,10 @@ app.use(express.urlencoded({ extended: true }));                          // All
 app.use(express.static(path.join(__dirname, "public")));                  // Allows express to serve frontend files (html, css, js)
 app.use(express.json());                                                  // Allows express to read JSON request bodies (EX: fetching /api/login)
 
-// Sequelize connection
-const { sequelize } = require("./models");
+// Sequelize database connection
+const { sequelize } = require("./models");                                // Importing the Sequelize instance from the models folder (already configured using config.js and .env)
 
+// Testing the connection to the MySQL database
 sequelize.authenticate()
   .then(() => console.log("Database connected"))
   .catch(err => console.error("Error:", err));

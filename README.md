@@ -79,10 +79,7 @@ Create a `.env` file in the root directory and include the following:
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=yourpassword
-
 DB_NAME=cosc480_final_project_db
-DB_TEST_NAME=cosc480_final_test_db
-DB_PROD_NAME=cosc480_final_prod_db
 
 MAIL_USER=your_email@gmail.com
 MAIL_PASS=your_app_password
@@ -90,12 +87,34 @@ MAIL_PASS=your_app_password
 PORT=3000
 ```
 
+#### 📧 Setting Up Email (Gmail)
+
+This project uses Gmail with Nodemailer to send emails (e.g., password reset codes, account verification).
+> 
+> #### Step 1: Enable 2-Step Verification
+> 
+> 1. Go to your Google Account settings: https://myaccount.google.com/security
+> 2. Enable **2-Step Verification** for your account.
+> 
+> #### Step 2: Generate an App Password
+> 
+> 1. Go to: https://myaccount.google.com/apppasswords
+> 2. Enter **App Name**: `COSC480: Final Project`
+> 3. Click **Create**
+> 4. Copy the generated 16-character app password
+> 
+> #### Step 3: Add to .env
+> ```env
+> MAIL_USER=your_email@gmail.com
+> MAIL_PASS=your_generated_app_password
+> ```
+
 ### 6. Database Setup (Sequelize)
 
 Create and migrate the database:
 ```bash
-npx sequelize-cli db:create
-npx sequelize-cli db:migrate
+npm run db:create
+npm run db:migrate
 ```
 
 ### 7. Run the Application
