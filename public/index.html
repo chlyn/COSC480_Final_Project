@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>Account Form</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+
+    <body>
+
+        <!-- BACKGROUND -->
+        <div id="background">
+
+            <!-------------------------------------------------------------------------------------------------------------------------->
+            <!-- FORM -->
+            <div class="form">
+
+                <!-- FORM CONTAINER -->
+                <div class="form-container">
+
+                    <!-- FORM SUBTITLE -->
+                        <div class="form-subtitle">
+                            <h2>Account Form</h2>
+                        </div>
+
+
+
+                    <!------------------------------------------------------------------------------------------------------------------>
+                    <!-- CREATE SECTION-->
+                    <section class="form-section" id="create-account">
+
+                        <!-- FORM TITLE -->
+                        <span class="form-title" id="create-title">Create your account</span>
+
+                        <!-- ERROR MESSAGE -->
+                        <div class="alert error hidden" id="create-error">
+                            <span class="material-icons">error_outline</span>
+                            <span class="msg-error-text"></span>
+                        </div>
+
+                        <!-- FORM CONTENT -->
+                        <form id="create-form" action="/api/create-account" method="post">
+
+                            <!-- NAME FIELD -->
+                            <div class="name-field">
+
+                                <!-- FIRST NAME -->
+                                <label class="form-label">
+                                    First Name
+                                    <input type="text" name="firstname" required/>
+                                </label>
+
+                                <!-- LAST NAME -->
+                                <label class="form-label">
+                                    Last Name
+                                    <input type="text" name="lastname" required/>
+                                </label>
+
+                            </div>
+
+                            <!-- EMAIL FEILD -->
+                            <label class="form-label">
+                                Email
+                                <input type="email" name="email" required/>
+                            </label>
+
+                            <!-- PASSWORD FEILD -->
+                            <label class="form-label">
+                                Password
+                                <div class="password-field">
+
+                                    <input type="password" name="password" class="password-input" id="create-password" required/>
+                                    <button type="button" class="password-toggle" aria-label="Show password" aria-pressed="false">
+                                        <span class="material-icons">visibility_off</span>
+                                    </button>
+                                </div>
+                            </label>
+
+                            <!-- MAJOR FIELD-->
+                            <label class="form-label">
+                                Major
+                                <div class="dropdown-field">
+                                    <select id="major" name="major" required>
+                                        <option value="">Select your major</option>
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Engineering">Engineering</option>
+                                        <option value="Business Administration">Business Administration</option>
+                                        <option value="Psychology">Psychology</option>
+                                        <option value="Biology">Biology</option>
+                                        <option value="Chemistry">Chemistry</option>
+                                        <option value="Physics">Physics</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="English">English</option>
+                                        <option value="History">History</option>
+                                        <option value="Political Science">Political Science</option>
+                                        <option value="Economics">Economics</option>
+                                        <option value="Sociology">Sociology</option>
+                                        <option value="Communication">Communication</option>
+                                        <option value="Art">Art</option>
+                                        <option value="Music">Music</option>
+                                        <option value="Nursing">Nursing</option>
+                                        <option value="Education">Education</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+
+                                    <div class="dropdown-icon">
+                                        <span class="material-icons">arrow_drop_down</span>
+                                    </div>
+
+                                </div>
+                            </label>
+
+                            <!-- MINOR FIELD-->
+                            <label class="form-label">
+                                Minor (Optional)
+                                <div class="dropdown-field">
+                                    <select id="minor" name="minor">
+                                        <option value="">None</option>
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Engineering">Engineering</option>
+                                        <option value="Business Administration">Business Administration</option>
+                                        <option value="Psychology">Psychology</option>
+                                        <option value="Biology">Biology</option>
+                                        <option value="Chemistry">Chemistry</option>
+                                        <option value="Physics">Physics</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="English">English</option>
+                                        <option value="History">History</option>
+                                        <option value="Political Science">Political Science</option>
+                                        <option value="Economics">Economics</option>
+                                        <option value="Sociology">Sociology</option>
+                                        <option value="Communication">Communication</option>
+                                        <option value="Art">Art</option>
+                                        <option value="Music">Music</option>
+                                        <option value="Nursing">Nursing</option>
+                                        <option value="Education">Education</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+
+                                    <div class="dropdown-icon">
+                                        <span class="material-icons">arrow_drop_down</span>
+                                    </div>
+
+                                </div>
+                            </label>
+
+                            <!-- CREATE ACCOUNT BUTTON -->
+                            <button type="submit" class="form-btn">Create Account</button>
+
+                            <!-- LOGIN PAGE SWITCH BUTTON -->
+                            <p class="form-helper">
+                                Already have an account?
+                                <button type="button" class="text-link" data-switch="login">
+                                    <span class="link-text">Log in</span>
+                                </button>
+                            </p>
+
+                        </form>
+
+                    </section>
+
+
+
+                    <!------------------------------------------------------------------------------------------------------------------>
+                    <!-- LOGIN SECTION-->
+                    <section class="form-section active" id="login">
+
+                        <!-- FORM TITLE -->
+                        <span class="form-title" id="login-title">Welcome back</span>
+
+                        <!-- SUCCESS MESSAGE -->
+                        <div class="alert success hidden" id="login-success">
+                            <span class="material-icons">check_circle_outline</span>
+                            <span class="msg-success-text"></span>
+                        </div>
+
+                        <!-- ERROR MESSAGE -->
+                        <div class="alert error hidden" id="login-error">
+                            <span class="material-icons">error_outline</span>
+                            <span class="msg-error-text"></span>
+                        </div>
+
+                        <!-- SUCCESS ALERT -->
+                        <div class="alert success hidden toast" id="login-success">
+                            <span class="material-icons">check_circle_outline</span>
+                            <span class="msg-success-text"></span>
+                        </div>
+
+                        <!-- FORM CONTENT -->
+                        <form id="login-form" action="/api/login" method="post">
+
+                            <!-- EMAIL FEILD -->
+                            <label class="form-label">
+                                Email
+                                <input type="email" name="email" required/>
+                            </label>
+
+                            <!-- PASSWORD FEILD -->
+                            <label class="form-label">
+                                Password
+                                <div class="password-field">
+                                    <input type="password" name="password" class="password-input" id="login-password" required/>
+                                    <button type="button" class="password-toggle" aria-label="Show password" aria-pressed="false">
+                                        <span class="material-icons">visibility_off</span>
+                                    </button>
+                                </div>
+                            </label>
+
+                            <!-- FORGET PASSWORD BUTTON -->
+                            <div class="password-helper">
+                                <button type="button" class="text-link" data-switch="forgot-password">
+                                    <span class="link-text">Forgot Password</span>
+                                </button>
+                            </div>
+
+                            <!-- LOG IN BUTTON -->
+                            <button type="submit" class="form-btn">Log In</button>
+
+                            <!-- CREATE ACCOUNT PAGE SWITCH BUTTON -->
+                            <p class="form-helper">
+                                Don't have an account?
+                                <button type="button" class="text-link" data-switch="create-account">
+                                    <span class="link-text">Create Account</span>
+                                </button>
+                            </p>
+
+                        </form>
+
+                    </section>
+
+
+
+                    <!------------------------------------------------------------------------------------------------------------------>
+                    <!-- FORGOT PASSWORD -->
+                    <section class="form-section" id="forgot-password">
+
+                        <!-- FORM TITLE -->
+                        <span class="form-title" id="forgot-password-title">Forgot your password?</span>
+
+                        <!-- FORM DESCRIPTION -->
+                        <p class="form-description">
+                            Enter your email below so we can send you a code to reset it
+                        </p>
+
+                        <!-- ERROR MESSAGE -->
+                        <div class="alert error hidden" id="forgot-password-error">
+                            <span class="material-icons">error_outline</span>
+                            <span class="msg-error-text"></span>
+                        </div>
+
+                        <!-- FORM CONTENT -->
+                        <form id="forgot-password-form" action="/api/forgot-password" method="post">
+                            
+                            <!-- EMAIL FEILD -->
+                            <label class="form-label">
+                                Email
+                                <input type="email" name="email" required/>
+                            </label>
+
+                            <!-- SUBMIT BUTTON -->
+                            <button type="submit" class="form-btn">Submit</button>
+
+
+                            <!-- BACK TO LOGIN BUTTON -->
+                            <p class="form-helper">
+                                <button type="button" class="text-link back-link" data-switch="login">
+                                    <span class="material-icons">arrow_back</span>
+                                    <span class="link-text">Back to Login</span>
+                                </button>
+                            </p>
+
+                        </form>
+
+                    </section>
+
+
+
+                    <!------------------------------------------------------------------------------------------------------------------>
+                    <!-- VERIFICATION -->
+                    <section class="form-section" id="verification">
+
+                        <!-- FORM TITLE -->
+                        <span class="form-title" id="verification-title">Verification</span>
+
+                        <!-- FORM DESCRIPTION -->
+                        <p class="form-description">
+                            Check your inbox and enter a code to proceed
+                        </p>
+
+                        <!-- SUCCESS MESSAGE -->
+                        <div class="alert success hidden" id="verification-success">
+                            <span class="material-icons">check_circle_outline</span>
+                            <span class="msg-success-text"></span>
+                        </div>
+
+                        <!-- ERROR MESSAGE -->
+                        <div class="alert error hidden" id="verification-error">
+                            <span class="material-icons">error_outline</span>
+                            <span class="msg-error-text"></span>
+                        </div>
+
+                        <!-- FORM CONTENT -->
+                        <form id="verification-form" action="/api/verification" method="post">
+                            
+                            <!-- CODE FEILD -->
+                            <label class="form-label">
+                                Code
+                                <input type="number" name="code" required/>
+                            </label>
+
+                            <!-- SUBMIT BUTTON -->
+                            <button type="submit" class="form-btn">Verify</button>
+
+
+                            <!-- BACK TO LOGIN BUTTON -->
+                            <p class="form-helper">
+                                <button type="button" class="text-link back-link" data-switch="login">
+                                    <span class="material-icons">arrow_back</span>
+                                    <span class="link-text">Back to Login</span>
+                                </button>
+                            </p>
+
+                        </form>
+
+                    </section>
+
+
+
+                    <!------------------------------------------------------------------------------------------------------------------>
+                    <!-- NEW PASSWORD -->
+                    <section class="form-section" id="new-password">
+
+                        <!-- FORM TITLE -->
+                        <span class="form-title" id="new-password-title">Create a new password</span>
+
+                        <!-- FORM DESCRIPTION -->
+                        <p class="form-description">
+                            Enter your new password below
+                        </p>
+
+                        <!-- ERROR MESSAGE -->
+                        <div class="alert error hidden" id="new-password-error">
+                            <span class="material-icons">error_outline</span>
+                            <span class="msg-error-text"></span>
+                        </div>
+
+                        <!-- FORM CONTENT -->
+                        <form id="new-password-form" action="/api/new-password" method="post">
+
+                            <!-- NEW PASSWORD FEILD -->
+                            <label class="form-label">
+                                New Password
+                                <div class="password-field">
+                                    <input type="password" name="newPassword" class="password-input" id="new-password" required/>
+                                    <button type="button" class="password-toggle" aria-label="Show password" aria-pressed="false">
+                                        <span class="material-icons">visibility_off</span>
+                                    </button>
+                                </div>
+                            </label>
+
+                            <!-- CONFIRM PASSWORD FEILD -->
+                            <label class="form-label">
+                                Confirm Password
+                                <div class="password-field">
+                                    <input type="password" name="confirmPassword" class="password-input" id="confirm-password" required/>
+                                    <button type="button" class="password-toggle" aria-label="Show password" aria-pressed="false">
+                                        <span class="material-icons">visibility_off</span>
+                                    </button>
+                                </div>
+                            </label>
+
+                            <!-- SUBMIT BUTTON -->
+                            <button type="submit" class="form-btn">Submit</button>
+
+                            <!-- BACK TO LOGIN BUTTON -->
+                            <p class="form-helper">
+                                <button type="button" class="text-link back-link" data-switch="login">
+                                    <span class="material-icons">arrow_back</span>
+                                    <span class="link-text">Back to Login</span>
+                                </button>
+                            </p>
+
+                        </form>
+
+                    </section>
+
+                </div>
+
+            </div>
+
+
+
+            <!-------------------------------------------------------------------------------------------------------------------------->
+            <!-- HOME PAGE -->
+            <div class="content hidden" id="home">
+
+                <!-- SUCCESS ALERT -->
+                <div class="alert success hidden toast" id="home-success">
+                    <span class="material-icons">check_circle_outline</span>
+                    <span class="msg-success-text"></span>
+                </div>
+
+                <!-- TOP BAR -->
+                <div class="topbar">
+
+                    <h1 class="topbar-title" id="topbar-title">Welcome back, </h1>
+
+                    <!-- USER PROFILE BUTTON -->
+                    <div class="user-profile">
+
+                        <!-- PROFILE BUTTON -->
+                        <button class="profile-btn" id="profile-btn">
+
+                            <!-- NAME & EMAIL -->
+                            <div class="profile-info">
+                                <p class="profile-name">Jane Doe</p>
+                                <p class="profile-email">doej0123</p>
+                            </div>
+
+                            <!-- INITIALS IMAGE -->
+                            <span class="profile-img">JD</span>
+
+                        </button>
+
+                        <!-- PROFILE MENU -->
+                        <div class="profile-menu" id="profile-menu">
+
+                            <button class="profile-menu-item">
+                                <span class="material-icons">person</span>
+                                Profile
+                            </button>
+
+                            <button class="profile-menu-item" id="signout-btn">
+                                <span class="material-icons">logout</span>
+                                Sign Out
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="main-content">
+                    <h1 class="home-title">Home Page</h1>
+
+                    <p class="home-text">
+                        You are now logged in.
+                    </p>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <script type="module" src="script.js"></script>
+
+    </body>
+
+</html>

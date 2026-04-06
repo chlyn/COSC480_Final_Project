@@ -1,0 +1,612 @@
+/* ------------------------------------------------------------------------------------------ */
+/* COLORS */
+
+:root {
+  /* Background colors */
+  --background-default: #ffffff;
+  --background-main: #f9f7fd;
+
+  /* Main color palette */
+  --color-primary-default: #874fce;
+  --color-primary-hover: #733db5;
+  --color-primary-active: #613693;
+  --color-secondary: #9d6ede;
+  --color-tertiary: #b996ea;
+  --color-accent-default: #d4bff3;
+  --color-accent-hover: #f6f2ff;
+  --color-accent-strong: #d8d3e6;
+
+  /* Danger (errors, critical actions) */
+  --danger-default: #c1367c;
+  --danger-hover: #a72d6b;
+  --danger-active: #8b2558;
+  --danger-bg: #fce7f3;
+  --danger-border: #f9a8d4;
+  --danger-text: #a72d6b;
+
+  /* Success (successful actions, confirmations) */
+  --success-default: #2f9e6d;
+  --success-hover: #26875d;
+  --success-active: #1f6f4d;
+  --success-bg: #e6f7ef;
+  --success-border: #9de2c2;
+  --success-text: #1f6f4d;
+
+  /* Borders and Dividers */
+  --border-default: #d4bff3;
+  --border-strong: #b996ea;
+  --divider-default: #e6dbf9;
+
+  /* Text color palette */
+  --text-primary: #1f1d2b;
+  --text-secondary: #6b7280;
+  --text-accent: #9d6ede;
+  --text-on-primary: #ffffff;
+
+  /* Modal */
+  --modal-background: color-mix(in srgb,#000000 5%, var(--color-primary-default) 2%);
+  --modal-border: #d4bff3;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(135, 79, 206, 0.05), 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  --shadow-sm: 0 2px 4px rgba(135, 79, 206, 0.07), 0 2px 6px rgba(0, 0, 0, 0.06);
+
+  --shadow-md: 0 4px 8px rgba(135, 79, 206, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+
+  --shadow-lg: 0 8px 16px rgba(135, 79, 206, 0.18), 0 4px 6px rgba(0, 0, 0, 0.12);
+
+  --shadow-xl: 0 12px 24px rgba(135, 79, 206, 0.22), 0 6px 12px rgba(0, 0, 0, 0.15);
+
+  --shadow-glow: 0 0 0 3px rgba(157, 110, 222, 0.4), 0 0 12px rgba(157, 110, 222, 0.3);
+}
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+/* GLOBAL STYLES */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-main);
+  font-family: "Open Sans", sans-serif !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+/* FORM LAYOUT */
+
+#form {
+  width: 100vw;
+  height: 100vh;
+  background: var(--background-main);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.063);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.form-container {
+  width: 500px;
+  border-radius: 16px;
+  background: var(--background-default);
+  border: 1px solid var(--divider-default);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 16px 24px;
+}
+
+.content.hidden {
+  display: none;
+}
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+/* ALERT */
+
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.msg-error .material-icons {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.msg-error-text {
+  flex: 1;
+}
+
+.msg-error.hidden {
+  display: none;
+}
+
+/* Error */
+.error {
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  color: var(--danger-text);
+}
+
+.error .material-icons {
+  color: var(--danger-default);
+}
+
+/* Success */
+.success {
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+  color: var(--success-text);
+}
+
+.success .material-icons {
+  color: var(--success-default);
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  top: 59px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(520px, calc(100% - 32px));
+  z-index: 9999;
+  box-shadow: var(--shadow-sm);
+}
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+/* SECTION CONTENT LAYOUT */
+
+.form-section {
+  display: none;
+}
+
+.form-section.active {
+  display: block;
+}
+
+/* Sub-Title */
+.form-subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-subtitle h2 {
+  margin: 16px 0px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-primary-default);
+}
+
+/* Title */
+.form-title {
+  width: 100%;
+  display: block;
+  margin-top: 0px;
+  margin-bottom: 32px;
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+/* Description */
+.form-description {
+  margin-top: -8px;
+  margin-bottom: 24px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+/* FORM FIELD */
+
+/* Label */
+.form-label {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 11px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--text-secondary) 80%, transparent);
+}
+
+/* Field Box */
+.form-label input,
+.form-label select {
+  width: 100%;
+  height: 40px;
+  margin-top: 4px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--divider-default);
+  background: color-mix(in srgb, var(--color-accent-strong) 10%, #ffffff);
+  color: var(--text-primary);
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-label select:focus,
+.form-label input:focus {
+  outline: none;
+  border-color: var(--color-primary-default);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary-default) 10%, transparent);
+}
+
+/* Name Field */
+.name-field {
+  display: flex;
+  gap: 12px;
+}
+
+.name-field .form-label {
+  flex: 1;
+}
+
+/* Password Field */
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 40px;
+}
+
+/* Password Field Icon */
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 53%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-secondary);
+  transition: color 0.15s ease;
+}
+
+/* Password Button Interaction */
+.password-toggle .material-icons {
+  font-size: 20px;
+}
+
+.password-toggle:hover .material-icons {
+  color: var(--color-primary-hover);
+}
+
+/* Dropdown Field */
+.dropdown-field {
+  position: relative;
+}
+
+.dropdown-field select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 40px;
+}
+
+/* Dropdown Field Icon */
+.dropdown-icon {
+  position: absolute;
+  right: 12px;
+  top: 53%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-secondary);
+  transition: color 0.15s ease;
+}
+
+/* Dropdown Icon Interaction */
+.dropdown-icon .material-icons {
+  font-size: 30px;
+}
+
+.dropdown-field:hover .material-icons {
+  color: var(--color-primary-hover);
+}
+
+/* Number Field Icon */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+/* PRIMARY BUTTON */
+
+.form-btn {
+  margin: 24px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  width: 100%;
+  height: 40px;
+  background: var(--color-primary-default);
+  color: var(--text-on-primary);
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+/* Button Interaction */
+.form-btn:hover {
+  background: var(--color-primary-hover);
+}
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+/* HELPER BUTTON */
+
+/* Text */
+.form-helper {
+  font-size: 14px;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+/* TEXT LINK */
+
+.text-link {
+  border: none;
+  background: none;
+  color: var(--text-accent);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+/* Button Interaction */
+.text-link:hover .link-text {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
+
+/* Text Link with Icon */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0;
+  text-decoration: none;
+}
+
+.back-link .material-icons {
+  font-size: 20px;
+  line-height: 1;
+}
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+/* HOME PAGE LAYOUT */
+
+.content {
+  width: 100vw;
+  height: 100vh;
+  background: var(--background-main);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.063);
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: center;
+  overflow: hidden;
+}
+
+.home-title {
+  font-size: 32px;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.home-text {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+/* TOB BAR */
+
+.topbar {
+  height: 80px;
+  padding: 0;
+  background: var(--background-default);
+  border-bottom: 1px solid var(--border-default);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+
+/* Top Bar Title */
+.topbar-title {
+  font-size: 28px;
+  color: var(--text-primary);
+}
+
+
+/* User Profile Button */
+.user-profile {
+  position: relative;
+}
+
+.profile-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0px;
+}
+
+.profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--color-primary-default) 15%, transparent);
+  color: var(--text-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.2;
+  gap: 2px;
+}
+
+.profile-name {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.profile-email {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: color-mix(in srgb, var(--text-secondary) 70%, transparent);
+}
+
+.profile-btn:hover .profile-name,
+.profile-btn:hover .profile-email {
+  color: var(--text-accent);
+}
+
+
+/* User Profile Menu */
+.profile-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: var(--background-default);
+  border: 1px solid var(--divider-default);
+  border-radius: 8px;
+  box-shadow: var(--shadow-md);
+  padding: 8px;
+  min-width: 180px;
+  display: none;
+  z-index: 10;
+  gap: 4px;
+}
+
+.profile-menu.open {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-menu-item {
+  width: 100%;
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-menu-item:hover {
+  background: color-mix(in srgb, var(--color-secondary) 10%, transparent);
+}
+
+.profile-menu-item .material-icons {
+  font-size: 18px;
+}
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+/* MAIN CONTENT LAYOUT */
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  justify-content: center;
+}
