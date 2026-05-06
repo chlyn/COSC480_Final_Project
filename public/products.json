@@ -1,0 +1,110 @@
+[
+    {
+        "id": 1,
+        "name": "BDG Carla Sweetheart Neckline Tube Top",
+        "type": "Top",
+        "price": "$25.00",
+        "rating": 4.4,
+        "tag": "Limited",
+        "image": "fake_clothes/1.png"
+    },
+    {
+        "id": 2,
+        "name": "Harri Wide Leg Jogger Pants",
+        "type": "Pants",
+        "price": "$59.00",
+        "rating": 4.6,
+        "tag": "New Arrival",
+        "image": "fake_clothes/2.png"
+    },
+    {
+        "id": 3,
+        "name": "BDG Ribbed Square Neck Tank Top",
+        "type": "Top",
+        "price": "$25.00",
+        "rating": 4.4,
+        "tag": "",
+        "image": "fake_clothes/3.png"
+    },
+    {
+        "id": 4,
+        "name": "BDG Off-Duty Ribbed High Neck Tank Top",
+        "type": "Top",
+        "price": "$19.00",
+        "rating": 4.5,
+        "tag": "",
+        "image": "fake_clothes/4.png"
+    },
+    {
+        "id": 5,
+        "name": "Kimchi Blue Jessica Low-Rise Midi Skirt",
+        "type": "Skirt",
+        "price": "$59.00",
+        "rating": 4.4,
+        "tag": "",
+        "image": "fake_clothes/5.png"
+    },
+    {
+        "id": 6,
+        "name": "Kimchi Blue Leila Hem Halter Top",
+        "type": "Top",
+        "price": "$49.00",
+        "rating": 4.0,
+        "tag": "",
+        "image": "fake_clothes/6.png"
+    },
+    {
+        "id": 7,
+        "name": "Kimchi Blue Wide Leg Linen-Blend Pants",
+        "type": "Pants",
+        "price": "$55.00",
+        "rating": 4.7,
+        "tag": "",
+        "image": "fake_clothes/7.png"
+    },
+    {
+        "id": 8,
+        "name": "UO Samara Mesh Strapless Midi Dress",
+        "type": "Dress",
+        "price": "$69.00",
+        "rating": 4.7,
+        "tag": "Best Seller",
+        "image": "fake_clothes/8.png"
+    },
+    {
+        "id": 9,
+        "name": "BDG Alex Oversized Cotton Button-Down Shirt",
+        "type": "Top",
+        "price": "$29.00",
+        "rating": 5.0,
+        "tag": "Limited",
+        "image": "fake_clothes/9.png"
+    },
+    {
+        "id": 10,
+        "name": "Out From Under Wide Leg Sweatpants",
+        "type": "Pants",
+        "price": "$55.00",
+        "rating": 4.2,
+        "tag": "",
+        "image": "fake_clothes/10.png"
+    },
+    {
+        "id": 11,
+        "name": "Out From Under Je T'aime Mesh Cropped Cami",
+        "type": "Top",
+        "price": "$29.00",
+        "rating": 4.4,
+        "tag": "",
+        "image": "fake_clothes/11.png"
+    },
+    {
+        "id": 12,
+        "name": "UO Leilani Slim Button Up Shirt",
+        "type": "Top",
+        "price": "$59.00",
+        "rating": 3.7,
+        "tag": "",
+        "image": "fake_clothes/12.png"
+    }
+]

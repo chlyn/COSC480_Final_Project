@@ -2,8 +2,9 @@
 <html lang="en">
 
     <head>
-        <title>Account Form</title>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap"/>
+        <title>Rouge</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:wght@300;400;700&family=Inter:wght@300;400;500;600;700&display=swap"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
         <link rel="stylesheet" href="style.css" />
     </head>
@@ -11,7 +12,7 @@
     <body>
 
         <!-- BACKGROUND -->
-        <div id="background">
+        <div id="background-auth">
 
             <!-------------------------------------------------------------------------------------------------------------------------->
             <!-- FORM -->
@@ -19,13 +20,6 @@
 
                 <!-- FORM CONTAINER -->
                 <div class="form-container">
-
-                    <!-- FORM SUBTITLE -->
-                        <div class="form-subtitle">
-                            <h2>Account Form</h2>
-                        </div>
-
-
 
                     <!------------------------------------------------------------------------------------------------------------------>
                     <!-- CREATE SECTION-->
@@ -75,74 +69,6 @@
                                     <button type="button" class="password-toggle" aria-label="Show password" aria-pressed="false">
                                         <span class="material-icons">visibility_off</span>
                                     </button>
-                                </div>
-                            </label>
-
-                            <!-- MAJOR FIELD-->
-                            <label class="form-label">
-                                Major
-                                <div class="dropdown-field">
-                                    <select id="major" name="major" required>
-                                        <option value="">Select your major</option>
-                                        <option value="Computer Science">Computer Science</option>
-                                        <option value="Engineering">Engineering</option>
-                                        <option value="Business Administration">Business Administration</option>
-                                        <option value="Psychology">Psychology</option>
-                                        <option value="Biology">Biology</option>
-                                        <option value="Chemistry">Chemistry</option>
-                                        <option value="Physics">Physics</option>
-                                        <option value="Mathematics">Mathematics</option>
-                                        <option value="English">English</option>
-                                        <option value="History">History</option>
-                                        <option value="Political Science">Political Science</option>
-                                        <option value="Economics">Economics</option>
-                                        <option value="Sociology">Sociology</option>
-                                        <option value="Communication">Communication</option>
-                                        <option value="Art">Art</option>
-                                        <option value="Music">Music</option>
-                                        <option value="Nursing">Nursing</option>
-                                        <option value="Education">Education</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-
-                                    <div class="dropdown-icon">
-                                        <span class="material-icons">arrow_drop_down</span>
-                                    </div>
-
-                                </div>
-                            </label>
-
-                            <!-- MINOR FIELD-->
-                            <label class="form-label">
-                                Minor (Optional)
-                                <div class="dropdown-field">
-                                    <select id="minor" name="minor">
-                                        <option value="">None</option>
-                                        <option value="Computer Science">Computer Science</option>
-                                        <option value="Engineering">Engineering</option>
-                                        <option value="Business Administration">Business Administration</option>
-                                        <option value="Psychology">Psychology</option>
-                                        <option value="Biology">Biology</option>
-                                        <option value="Chemistry">Chemistry</option>
-                                        <option value="Physics">Physics</option>
-                                        <option value="Mathematics">Mathematics</option>
-                                        <option value="English">English</option>
-                                        <option value="History">History</option>
-                                        <option value="Political Science">Political Science</option>
-                                        <option value="Economics">Economics</option>
-                                        <option value="Sociology">Sociology</option>
-                                        <option value="Communication">Communication</option>
-                                        <option value="Art">Art</option>
-                                        <option value="Music">Music</option>
-                                        <option value="Nursing">Nursing</option>
-                                        <option value="Education">Education</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-
-                                    <div class="dropdown-icon">
-                                        <span class="material-icons">arrow_drop_down</span>
-                                    </div>
-
                                 </div>
                             </label>
 
@@ -393,8 +319,9 @@
 
 
             <!-------------------------------------------------------------------------------------------------------------------------->
-            <!-- HOME PAGE -->
-            <div class="content hidden" id="home">
+            <!-- PAGES -->
+
+            <div class="background-content hidden" id="home">
 
                 <!-- SUCCESS ALERT -->
                 <div class="alert success hidden toast" id="home-success">
@@ -402,57 +329,342 @@
                     <span class="msg-success-text"></span>
                 </div>
 
-                <!-- TOP BAR -->
+
+
+                <!-------------------------------------------------------------------------------------------------------------------------->
+                <!-- TOPBAR -->
+
                 <div class="topbar">
 
-                    <h1 class="topbar-title" id="topbar-title">Welcome back, </h1>
+                    <div class="logo">
+                        <button>
+                            <h1 class="logo-title">Rouge</h1>
+                        </button>
+                    </div>
 
-                    <!-- USER PROFILE BUTTON -->
-                    <div class="user-profile">
+                    <div class="nav">
+                        <button class="nav-btn active">Women</button>
+                        <button class="nav-btn">Men</button>
+                        <button class="nav-btn">Kids</button>
+                        <button class="nav-btn">Accessories</button>
+                        <button class="nav-btn">Sales</button>
+                    </div>
 
-                        <!-- PROFILE BUTTON -->
-                        <button class="profile-btn" id="profile-btn">
+                    <div class="main-nav">
 
-                            <!-- NAME & EMAIL -->
-                            <div class="profile-info">
-                                <p class="profile-name">Jane Doe</p>
-                                <p class="profile-email">doej0123</p>
-                            </div>
-
-                            <!-- INITIALS IMAGE -->
-                            <span class="profile-img">JD</span>
-
+                        <button class="main-nav-btn">
+                            <span class="material-icons">shopping_cart</span>
                         </button>
 
-                        <!-- PROFILE MENU -->
-                        <div class="profile-menu" id="profile-menu">
+                        <button class="main-nav-btn">
+                            <span class="material-icons">favorite</span>
+                        </button>
 
-                            <button class="profile-menu-item">
-                                <span class="material-icons">person</span>
-                                Profile
-                            </button>
-
-                            <button class="profile-menu-item" id="signout-btn">
-                                <span class="material-icons">logout</span>
-                                Sign Out
-                            </button>
-
-                        </div>
+                        <button class="main-nav-btn">
+                            <span class="material-icons">account_circle</span>
+                        </button>
 
                     </div>
 
                 </div>
 
-                <div class="main-content">
-                    <h1 class="home-title">Home Page</h1>
 
-                    <p class="home-text">
-                        You are now logged in.
-                    </p>
+
+                <!-------------------------------------------------------------------------------------------------------------------------->
+                <!-- CONTENT -->
+
+                <div class="content">
+
+                    <!---------------------------------------------------------------------------------------------------------------------->
+                    <!-- HOME PAGE -->
+
+                    <section class="page-section hidden" id="home-page">
+
+                    </section>
+
+
+
+                    <!---------------------------------------------------------------------------------------------------------------------->
+                    <!-- CATEGORY PAGE -->
+
+                    <section class="page-section" id="category-page">
+
+
+
+                        <!---------------------------------------------------------------------------------------------------------------------->
+                        <!-- FILTERS -->
+
+                        <div class="filters">
+
+                            <div class="filters-header">
+
+                                <h3 class="filters-title">Filters</h3>
+
+                                <button class="filters-clear-btn" type="button">
+                                    <span>Clear All</span>
+                                </button>
+
+                            </div>
+
+                            <div class="filter-content">
+
+                                <div class="filter-group">
+
+                                    <h4 class="filter-title">Category</h4>
+
+                                    <label class="filter-checkbox">
+                                        <input type="checkbox" name="category" value="dresses"/>
+                                        <span>Dresses</span>
+                                        <span class="filter-count">(24)</span>
+                                    </label>
+
+                                    <label class="filter-checkbox">
+                                        <input type="checkbox" name="category" value="tops"/>
+                                        <span>Tops</span>
+                                        <span class="filter-count">(18)</span>
+                                    </label>
+
+                                    <label class="filter-checkbox">
+                                        <input type="checkbox" name="category" value="bottoms"/>
+                                        <span>Bottoms</span>
+                                        <span class="filter-count">(18)</span>
+                                    </label>
+
+                                    <label class="filter-checkbox">
+                                        <input type="checkbox" name="category" value="shoes"/>
+                                        <span>Shoes</span>
+                                        <span class="filter-count">(12)</span>
+                                    </label>
+
+                                    <label class="filter-checkbox">
+                                        <input type="checkbox" name="category" value="bags"/>
+                                        <span>Bags</span>
+                                        <span class="filter-count">(9)</span>
+                                    </label>
+
+                                </div>
+
+
+
+                                <div class="filter-group">
+
+                                    <h4 class="filter-title">Color</h4>
+
+                                    <div class="color-options">
+
+                                        <button class="color-option selected" type="button">
+                                            <span class="color-swatch" style="background: #B4201E;">
+                                                <span class="material-icons">check</span>
+                                            </span>
+                                            <span>Red</span>
+                                        </button>
+
+                                        <button class="color-option" type="button">
+                                            <span class="color-swatch" style="background: #111111;">
+                                                <span class="material-icons">check</span>
+                                            </span>
+                                            <span>Black</span>
+                                        </button>
+
+                                        <button class="color-option" type="button">
+                                            <span class="color-swatch" style="background: #ffffff;">
+                                                <span class="material-icons">check</span>
+                                            </span>
+                                            <span>White</span>
+                                        </button>
+
+                                        <button class="color-option" type="button">
+                                            <span class="color-swatch" style="background: #8B4513;">
+                                                <span class="material-icons">check</span>
+                                            </span>
+                                            <span>Brown</span>
+                                        </button>
+
+                                        <button class="color-option" type="button">
+                                            <span class="color-swatch" style="background: #D8CBB8;">
+                                                <span class="material-icons">check</span>
+                                            </span>
+                                            <span>Beige</span>
+                                        </button>
+
+                                        <button class="color-option" type="button">
+                                            <span class="color-swatch" style="background: #808080;">
+                                                <span class="material-icons">check</span>
+                                            </span>
+                                            <span>Gray</span>
+                                        </button>
+
+                                        <button class="color-option" type="button">
+                                            <span class="color-swatch" style="background: #F89ABA;">
+                                                <span class="material-icons">check</span>
+                                            </span>
+                                            <span>Pink</span>
+                                        </button>
+
+                                        <button class="color-option" type="button">
+                                            <span class="color-swatch" style="background: #F68424;">
+                                                <span class="material-icons">check</span>
+                                            </span>
+                                            <span>Orange</span>
+                                        </button>
+
+                                        <button class="color-option" type="button">
+                                            <span class="color-swatch" style="background: #F5C542;">
+                                                <span class="material-icons">check</span>
+                                            </span>
+                                            <span>Yellow</span>
+                                        </button>
+
+                                        <button class="color-option" type="button">
+                                            <span class="color-swatch" style="background: #3F7D58;">
+                                                <span class="material-icons">check</span>
+                                            </span>
+                                            <span>Green</span>
+                                        </button>
+
+                                        <button class="color-option" type="button">
+                                            <span class="color-swatch" style="background: #8AB9DA;">
+                                                <span class="material-icons">check</span>
+                                            </span>
+                                            <span>Blue</span>
+                                        </button>
+
+                                        <button class="color-option" type="button">
+                                            <span class="color-swatch" style="background: #7C5CC4;">
+                                                <span class="material-icons">check</span>
+                                            </span>
+                                            <span>Purple</span>
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="filter-group">
+
+                                    <h4 class="filter-title">Size</h4>
+
+                                    <div class="size-options">
+
+                                        <button class="size-option" type="button">XXS</button>
+                                        <button class="size-option" type="button">XS</button>
+                                        <button class="size-option selected" type="button">S</button>
+                                        <button class="size-option" type="button">M</button>
+                                        <button class="size-option" type="button">L</button>
+                                        <button class="size-option" type="button">XL</button>
+                                        <button class="size-option" type="button">XXL</button>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <div class="filter-group">
+
+                                    <h4 class="filter-title">Tags</h4>
+
+                                    <div class="tag-options">
+
+                                        <button class="tag-option selected" type="button">50% Off</button>
+                                        <button class="tag-option" type="button">New Arrival</button>
+                                        <button class="tag-option" type="button">Best Seller</button>
+                                        <button class="tag-option" type="button">Limited</button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!---------------------------------------------------------------------------------------------------------------------->
+                        <!-- PRODUCTS -->
+
+                        <div class="products">
+
+                            <div class="category-header">
+
+                                <h2 class="category-title">Women</h2>
+
+                                <label class="search">
+
+                                    <span class="material-icons">search</span>
+
+                                    <input type="text" name="search" placeholder="Search within category"/>
+
+                                    <button class="search-clear-btn hidden" type="button" id="search-clear-btn" aria-label="Clear search">
+                                        <span class="material-icons">close</span>
+                                    </button>
+
+                                </label>
+
+                            </div>
+
+                            <div class="product-list" id="product-list"></div>
+
+                        </div>
+
+                    </section>
+
+
+
+                    <!---------------------------------------------------------------------------------------------------------------------->
+                    <!-- PRODUCT PAGE -->
+
+                    <section class="page-section hidden" id="product-page">
+
+                        <div class="alert success hidden toast" id="home-success">
+                            <span class="material-icons">check_circle_outline</span>
+                            <span class="msg-success-text"></span>
+                        </div>
+
+                        <div class="back-button">
+                            <button class="back-to-category-btn" type="button">
+                                <span class="material-icons">arrow_back</span>
+                                <span>Back</span>
+                            </button>
+                        </div>
+
+                        <div class="product-page-content" id="product-page-content">
+
+                        </div>
+
+                    </section>
+
+
+
+                    <!---------------------------------------------------------------------------------------------------------------------->
+                    <!-- CART PAGE -->
+
+                    <section class="page-section hidden" id="cart-page">
+
+                    </section>
+
+
+
+                    <!---------------------------------------------------------------------------------------------------------------------->
+                    <!-- FAVORITES PAGE -->
+
+                    <section class="page-section hidden" id="favorites-page">
+
+                    </section>
+
+
+
+                    <!---------------------------------------------------------------------------------------------------------------------->
+                    <!-- PROFILE PAGE -->
+
+                    <section class="page-section hidden" id="profile-page">
+
+                    </section>
+
                 </div>
 
             </div>
-
 
         </div>
 

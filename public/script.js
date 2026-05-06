@@ -786,6 +786,152 @@ async function handleNewPasswordSubmit(e) {
 }
 
 
+
+/* ------------------------------------------------------------------------------------------ */
+/* PRODUCTS */
+
+const productList = document.querySelector("#product-list");
+const productPageContent = document.querySelector("#product-page-content");
+const categoryPage = document.querySelector("#category-page");
+const productPage = document.querySelector("#product-page");
+const backToCategoryBtn = document.querySelector(".back-to-category-btn");
+
+let allProducts = [];
+
+async function loadProducts() {
+  if (!productList) return;
+
+  const response = await fetch("products.json");
+  allProducts = await response.json();
+
+  renderProducts(allProducts);
+}
+
+function renderProducts(products) {
+  productList.innerHTML = products.map((product) => {
+    return `
+      <div class="product-card" data-product-id="${product.id}">
+
+        <div class="product-image">
+
+          ${product.tag ? `
+            <div class="product-tag">
+              <span>${product.tag}</span>
+            </div>
+          ` : ""}
+
+          <img src="${product.image}" alt="${product.name}"/>
+
+        </div>
+
+        <div class="product-info">
+
+          <div class="product-info-details">
+            <span class="product-name">${product.name}</span>
+            <span class="product-price">${product.price}</span>
+          </div>
+
+          <button class="product-cart-btn" type="button" aria-label="Add ${product.name} to cart">
+            <span class="material-icons">shopping_cart</span>
+          </button>
+
+        </div>
+
+      </div>
+    `;
+  }).join("");
+}
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+/* PRODUCT PAGE */
+
+
+
+function setupProductClicks() {
+  productList?.addEventListener("click", (e) => {
+    if (e.target.closest(".product-cart-btn")) return;
+
+    const card = e.target.closest(".product-card");
+    if (!card) return;
+
+    const productId = Number(card.dataset.productId);
+    const product = allProducts.find((item) => item.id === productId);
+
+    if (!product) return;
+
+    showProductPage(product);
+  });
+}
+
+function showProductPage(product) {
+  categoryPage?.classList.add("hidden");
+  productPage?.classList.remove("hidden");
+
+  if (!productPageContent) return;
+
+  productPageContent.innerHTML = `
+    <div class="product-detail">
+
+      <div class="product-detail-image">
+        <img src="${product.image}" alt="${product.name}"/>
+      </div>
+
+      <div class="product-detail-info">
+
+        ${product.tag ? `
+          <div class="product-detail-tag">
+            <span>${product.tag}</span>
+          </div>
+        ` : ""}
+
+        <span class="product-detail-type">${product.type}</span>
+        <h2 class="product-detail-name">${product.name}</h2>
+        <span class="product-detail-price">${product.price}</span>
+
+        <button class="product-detail-cart-btn" type="button">
+          <span class="material-icons">shopping_cart</span>
+          <span>Add to Cart</span>
+        </button>
+
+      </div>
+
+    </div>
+  `;
+}
+
+function setupProductPageBackButton() {
+  backToCategoryBtn?.addEventListener("click", () => {
+    productPage?.classList.add("hidden");
+    categoryPage?.classList.remove("hidden");
+  });
+}
+
+
+function showCartToast() {
+  showSuccess("home-success", "Added to cart");
+
+  setTimeout(() => {
+    hideSuccess("home-success");
+  }, 2000);
+}
+
+function setupCartButtons() {
+  document.addEventListener("click", (e) => {
+    const cartButton = e.target.closest(".product-cart-btn, .product-detail-cart-btn");
+
+    if (!cartButton) return;
+
+    e.stopPropagation();
+
+    showCartToast();
+  });
+}
+
+
+
+
 /* ------------------------------------------------------------------------------------------ */
 /* FORM EVENT BINDINGS */
 
@@ -811,6 +957,10 @@ function init() {
   setupInputListeners();
   setupFormHandlers();
   loadRoute();
+  loadProducts();
+  setupProductClicks();
+  setupProductPageBackButton();
+  setupCartButtons();
 }
 
 // Starting the app
