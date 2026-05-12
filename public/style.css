@@ -1492,6 +1492,8 @@ input[type="number"] {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 14px;
+  background: var(--background-default);
 }
 
 .favorites-empty-state {
@@ -1818,6 +1820,11 @@ input[type="number"] {
 
 .checkout-btn:hover {
   background: var(--color-primary-hover);
+}
+
+.checkout-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .order-summary-help {

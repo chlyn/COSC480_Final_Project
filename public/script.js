@@ -968,7 +968,7 @@ function getOrderSummaryMarkup(showCheckoutButton = false) {
         </div>
       </div>
 
-      ${showCheckoutButton ? `<button class="checkout-btn" type="button">Checkout</button>` : ""}
+      ${showCheckoutButton ? `<button class="checkout-btn" type="button" ${totals.itemCount === 0 ? "disabled" : ""}>Checkout</button>` : ""}
     </div>
 
     <div class="order-summary-help">
@@ -1720,7 +1720,8 @@ function setupCartPage() {
   });
 
   orderSummary?.addEventListener("click", (e) => {
-    if (!e.target.closest(".checkout-btn")) return;
+    const checkoutButton = e.target.closest(".checkout-btn");
+    if (!checkoutButton || checkoutButton.disabled) return;
 
     selectedPaymentOption = "";
     renderCheckout();
@@ -1769,6 +1770,9 @@ function setupCheckoutPage() {
 
     if (e.target.closest(".place-order-btn")) {
       if (e.target.closest(".place-order-btn").disabled) return;
+      cartItems = [];
+      saveCartItems();
+      renderCart();
       showToast("success", "Order placed");
       showCategoryPage();
     }
