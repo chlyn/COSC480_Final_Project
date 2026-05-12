@@ -329,6 +329,12 @@
                     <span class="msg-success-text"></span>
                 </div>
 
+                <!-- ERROR ALERT -->
+                <div class="alert error hidden toast" id="home-error">
+                    <span class="material-icons">error_outline</span>
+                    <span class="msg-error-text"></span>
+                </div>
+
 
 
                 <!-------------------------------------------------------------------------------------------------------------------------->
@@ -352,11 +358,11 @@
 
                     <div class="main-nav">
 
-                        <button class="main-nav-btn">
+                        <button class="main-nav-btn cart-nav-btn" type="button" aria-label="Cart">
                             <span class="material-icons">shopping_cart</span>
                         </button>
 
-                        <button class="main-nav-btn">
+                        <button class="main-nav-btn favorites-nav-btn" type="button" aria-label="Favorites">
                             <span class="material-icons">favorite</span>
                         </button>
 
@@ -617,21 +623,16 @@
 
                     <section class="page-section hidden" id="product-page">
 
-                        <div class="alert success hidden toast" id="home-success">
-                            <span class="material-icons">check_circle_outline</span>
-                            <span class="msg-success-text"></span>
-                        </div>
-
                         <div class="back-button">
-                            <button class="back-to-category-btn" type="button">
+                            <button type="button" class="text-link back-link back-to-category-btn">
                                 <span class="material-icons">arrow_back</span>
-                                <span>Back</span>
+                                <span class="link-text">Back</span>
                             </button>
                         </div>
 
-                        <div class="product-page-content" id="product-page-content">
+                        <div class="product-details" id="product-details"></div>
 
-                        </div>
+                        <div class="recommended-products product-recommended-products"></div>
 
                     </section>
 
@@ -642,6 +643,164 @@
 
                     <section class="page-section hidden" id="cart-page">
 
+                        <div class="cart-header">
+
+                            <h2 class="cart-title">Cart</h2>
+
+                        </div>
+
+                        <div class="cart-content">
+
+                            <div class="cart-list" id="cart-list"></div>
+
+                            <aside class="order-summary" id="order-summary"></aside>
+
+                        </div>
+
+                        <div class="recommended-products cart-recommended-products"></div>
+
+                        <div class="modal hidden" id="remove-cart-modal">
+                            <div class="modal-content remove-cart-modal-content">
+
+                                <div class="modal-header">
+                                    <h3>Remove item</h3>
+                                    <button class="modal-close-btn remove-modal-close-btn" type="button" aria-label="Close">
+                                        <span class="material-icons">close</span>
+                                    </button>
+                                </div>
+
+                                <p class="modal-text">Are you sure you want to remove this item from your cart?</p>
+
+                                <div class="modal-footer">
+                                    <button class="modal-cancel-btn remove-modal-cancel-btn" type="button">Cancel</button>
+                                    <button class="modal-remove-btn remove-modal-confirm-btn" type="button">Remove</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </section>
+
+
+
+                    <!---------------------------------------------------------------------------------------------------------------------->
+                    <!-- CHECKOUT PAGE -->
+
+                    <section class="page-section hidden" id="checkout-page">
+
+                        <div class="checkout-header">
+
+                            <h2 class="checkout-title">Checkout</h2>
+
+                        </div>
+
+                        <div class="checkout-content">
+
+                            <div class="checkout-main">
+
+                                <section class="checkout-card">
+                                    <div class="checkout-card-header">
+                                        <h3>Delivery</h3>
+                                        <button class="text-link checkout-edit-btn" type="button">
+                                            <span class="link-text">Edit</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="delivery-option">
+                                        <span class="material-icons">local_shipping</span>
+                                        <div>
+                                            <h4>Standard shipping</h4>
+                                            <p id="checkout-delivery-date"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="delivery-address" id="delivery-address">
+                                        <h4>Shipping address</h4>
+                                    </div>
+                                </section>
+
+                                <section class="checkout-card">
+                                    <div class="checkout-card-header">
+                                        <h3>Items</h3>
+                                        <button class="text-link checkout-back-cart-btn" type="button">
+                                            <span class="link-text">Back to cart</span>
+                                        </button>
+                                    </div>
+                                    <div class="checkout-items-list" id="checkout-items-list"></div>
+                                </section>
+
+                                <section class="checkout-card">
+                                    <h3>Payment</h3>
+                                    <p class="payment-instruction">Please select your payment option:</p>
+
+                                    <div class="payment-options">
+                                        <button class="payment-option" type="button" data-payment="card">
+                                            <span class="material-icons">credit_card</span>
+                                            <span>Credit or debit card</span>
+                                        </button>
+
+                                        <button class="payment-option" type="button" data-payment="paypal">
+                                            <span class="material-icons">account_balance_wallet</span>
+                                            <span>PayPal</span>
+                                        </button>
+                                    </div>
+
+                                    <div class="payment-details hidden" id="payment-details"></div>
+                                </section>
+
+                            </div>
+
+                            <aside class="order-summary checkout-summary" id="checkout-summary"></aside>
+
+                        </div>
+
+                        <div class="modal hidden" id="address-modal">
+                            <div class="modal-content address-modal-content">
+
+                                <div class="modal-header">
+                                    <h3>Edit address</h3>
+                                    <button class="modal-close-btn address-modal-close-btn" type="button" aria-label="Close">
+                                        <span class="material-icons">close</span>
+                                    </button>
+                                </div>
+
+                                <form class="address-form" id="address-form">
+                                    <label>
+                                        Full name
+                                        <input type="text" name="name" required/>
+                                    </label>
+
+                                    <label>
+                                        Street address
+                                        <input type="text" name="street" required/>
+                                    </label>
+
+                                    <div class="address-form-grid">
+                                        <label>
+                                            City
+                                            <input type="text" name="city" required/>
+                                        </label>
+
+                                        <label>
+                                            State
+                                            <input type="text" name="state" required maxlength="2"/>
+                                        </label>
+
+                                        <label>
+                                            ZIP
+                                            <input type="text" name="zip" required/>
+                                        </label>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button class="modal-cancel-btn address-modal-cancel-btn" type="button">Cancel</button>
+                                        <button class="modal-remove-btn" type="submit">Save</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
                     </section>
 
 
@@ -650,6 +809,18 @@
                     <!-- FAVORITES PAGE -->
 
                     <section class="page-section hidden" id="favorites-page">
+
+                        <div class="products favorites-products">
+
+                            <div class="favorites-header">
+
+                                <h2 class="favorites-title">My Favorites</h2>
+
+                            </div>
+
+                            <div class="product-list favorites-list" id="favorites-list"></div>
+
+                        </div>
 
                     </section>
 
