@@ -8,7 +8,6 @@
     "db:create": "sequelize-cli db:create",
     "db:migrate": "sequelize-cli db:migrate",
     "test": "echo \"Error: no test specified\" && exit 1"
-
   },
   "keywords": [],
   "author": "",
@@ -16,6 +15,7 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "dotenv": "^17.4.0",
+    "ethers": "^5.8.0",
     "express": "^5.2.1",
     "mysql2": "^3.20.0",
     "nodemailer": "^8.0.4",
@@ -23,6 +23,8 @@
     "sequelize": "^6.37.8"
   },
   "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "hardhat": "^2.22.19",
     "nodemon": "^3.1.14",
     "sequelize-cli": "^6.6.5"
   }

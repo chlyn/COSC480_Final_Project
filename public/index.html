@@ -349,11 +349,11 @@
                     </div>
 
                     <div class="nav">
-                        <button class="nav-btn active">Women</button>
-                        <button class="nav-btn">Men</button>
-                        <button class="nav-btn">Kids</button>
-                        <button class="nav-btn">Accessories</button>
-                        <button class="nav-btn">Sales</button>
+                        <button class="nav-btn active" data-category="women">Women</button>
+                        <button class="nav-btn" data-category="men">Men</button>
+                        <button class="nav-btn" data-category="kids">Kids</button>
+                        <button class="nav-btn" data-category="accessories">Accessories</button>
+                        <button class="nav-btn" data-category="sales">Sales</button>
                     </div>
 
                     <div class="main-nav">
@@ -366,7 +366,7 @@
                             <span class="material-icons">favorite</span>
                         </button>
 
-                        <button class="main-nav-btn">
+                        <button class="main-nav-btn profile-nav-btn" type="button" aria-label="Profile">
                             <span class="material-icons">account_circle</span>
                         </button>
 
@@ -419,19 +419,19 @@
                                     <h4 class="filter-title">Category</h4>
 
                                     <label class="filter-checkbox">
-                                        <input type="checkbox" name="category" value="dresses"/>
+                                        <input type="checkbox" name="category" value="dress"/>
                                         <span>Dresses</span>
                                         <span class="filter-count">(24)</span>
                                     </label>
 
                                     <label class="filter-checkbox">
-                                        <input type="checkbox" name="category" value="tops"/>
+                                        <input type="checkbox" name="category" value="top"/>
                                         <span>Tops</span>
                                         <span class="filter-count">(18)</span>
                                     </label>
 
                                     <label class="filter-checkbox">
-                                        <input type="checkbox" name="category" value="bottoms"/>
+                                        <input type="checkbox" name="category" value="bottom"/>
                                         <span>Bottoms</span>
                                         <span class="filter-count">(18)</span>
                                     </label>
@@ -443,7 +443,7 @@
                                     </label>
 
                                     <label class="filter-checkbox">
-                                        <input type="checkbox" name="category" value="bags"/>
+                                        <input type="checkbox" name="category" value="accessory"/>
                                         <span>Bags</span>
                                         <span class="filter-count">(9)</span>
                                     </label>
@@ -458,7 +458,7 @@
 
                                     <div class="color-options">
 
-                                        <button class="color-option selected" type="button">
+                                        <button class="color-option" type="button">
                                             <span class="color-swatch" style="background: #B4201E;">
                                                 <span class="material-icons">check</span>
                                             </span>
@@ -554,7 +554,7 @@
 
                                         <button class="size-option" type="button">XXS</button>
                                         <button class="size-option" type="button">XS</button>
-                                        <button class="size-option selected" type="button">S</button>
+                                        <button class="size-option" type="button">S</button>
                                         <button class="size-option" type="button">M</button>
                                         <button class="size-option" type="button">L</button>
                                         <button class="size-option" type="button">XL</button>
@@ -572,10 +572,10 @@
 
                                     <div class="tag-options">
 
-                                        <button class="tag-option selected" type="button">50% Off</button>
-                                        <button class="tag-option" type="button">New Arrival</button>
-                                        <button class="tag-option" type="button">Best Seller</button>
-                                        <button class="tag-option" type="button">Limited</button>
+                                        <button class="tag-option" type="button" data-tag="50% Off">50% Off</button>
+                                        <button class="tag-option" type="button" data-tag="New Arrival">New Arrival</button>
+                                        <button class="tag-option" type="button" data-tag="Best Seller">Best Seller</button>
+                                        <button class="tag-option" type="button" data-tag="Limited">Limited</button>
 
                                     </div>
 
@@ -831,7 +831,122 @@
 
                     <section class="page-section hidden" id="profile-page">
 
+                        <div class="profile-page-content">
+
+                            <div class="profile-page-header">
+                                <h2 class="profile-page-title">Profile</h2>
+                            </div>
+
+                            <div class="profile-page-grid">
+
+                                <section class="profile-card" id="profile-account-card"></section>
+
+                                <section class="profile-card">
+                                    <div class="profile-card-header">
+                                        <h3>My Orders</h3>
+                                    </div>
+
+                                    <div class="profile-orders-list" id="profile-orders-list"></div>
+                                </section>
+
+                            </div>
+
+                        </div>
+
                     </section>
+
+                    <div class="modal hidden" id="order-confirmation-modal">
+                        <div class="modal-content order-confirmation-modal-content">
+
+                            <div class="modal-header">
+                                <h3>Order is out for delivery</h3>
+                                <button class="modal-close-btn order-confirmation-close-btn" type="button" aria-label="Close">
+                                    <span class="material-icons">close</span>
+                                </button>
+                            </div>
+
+                            <div class="order-confirmation-body" id="order-confirmation-body"></div>
+
+                            <div class="modal-footer">
+                                <button class="modal-remove-btn order-confirmation-done-btn" type="button">Done</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="modal hidden" id="profile-edit-modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Edit profile</h3>
+                                <button class="modal-close-btn profile-edit-close-btn" type="button" aria-label="Close">
+                                    <span class="material-icons">close</span>
+                                </button>
+                            </div>
+
+                            <form class="address-form" id="profile-edit-form">
+                                <div class="address-form-grid">
+                                    <label>
+                                        First name
+                                        <input type="text" name="firstname" required/>
+                                    </label>
+
+                                    <label>
+                                        Last name
+                                        <input type="text" name="lastname" required/>
+                                    </label>
+
+                                    <label>
+                                        Email
+                                        <input type="email" name="email" required/>
+                                    </label>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button class="modal-cancel-btn profile-edit-cancel-btn" type="button">Cancel</button>
+                                    <button class="modal-remove-btn" type="submit">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="modal hidden" id="profile-password-modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Change password</h3>
+                                <button class="modal-close-btn profile-password-close-btn" type="button" aria-label="Close">
+                                    <span class="material-icons">close</span>
+                                </button>
+                            </div>
+
+                            <form class="address-form" id="profile-password-form">
+                                <label>
+                                    Email
+                                    <input type="email" name="email" required/>
+                                </label>
+
+                                <label>
+                                    Verification code
+                                    <input type="text" name="code" required/>
+                                </label>
+
+                                <label>
+                                    New password
+                                    <input type="password" name="newPassword" required/>
+                                </label>
+
+                                <label>
+                                    Confirm password
+                                    <input type="password" name="confirmPassword" required/>
+                                </label>
+
+                                <div class="modal-footer">
+                                    <button class="modal-cancel-btn profile-password-cancel-btn" type="button">Cancel</button>
+                                    <button class="modal-cancel-btn profile-send-code-btn" type="button">Send code</button>
+                                    <button class="modal-remove-btn" type="submit">Change password</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
                 </div>
 

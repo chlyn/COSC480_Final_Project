@@ -6,7 +6,7 @@
         "price": "$25.00",
         "rating": 4.4,
         "tag": "Limited",
-        "image": "fake_clothes/1.png"
+        "image": "clothes/1.png"
     },
     {
         "id": 2,
@@ -15,7 +15,7 @@
         "price": "$59.00",
         "rating": 4.6,
         "tag": "New Arrival",
-        "image": "fake_clothes/2.png"
+        "image": "clothes/2.png"
     },
     {
         "id": 3,
@@ -24,7 +24,7 @@
         "price": "$25.00",
         "rating": 4.4,
         "tag": "",
-        "image": "fake_clothes/3.png"
+        "image": "clothes/3.png"
     },
     {
         "id": 4,
@@ -33,7 +33,7 @@
         "price": "$19.00",
         "rating": 4.5,
         "tag": "",
-        "image": "fake_clothes/4.png"
+        "image": "clothes/4.png"
     },
     {
         "id": 5,
@@ -42,7 +42,7 @@
         "price": "$59.00",
         "rating": 4.4,
         "tag": "",
-        "image": "fake_clothes/5.png"
+        "image": "clothes/5.png"
     },
     {
         "id": 6,
@@ -51,7 +51,7 @@
         "price": "$49.00",
         "rating": 4.0,
         "tag": "",
-        "image": "fake_clothes/6.png"
+        "image": "clothes/6.png"
     },
     {
         "id": 7,
@@ -60,7 +60,7 @@
         "price": "$55.00",
         "rating": 4.7,
         "tag": "",
-        "image": "fake_clothes/7.png"
+        "image": "clothes/7.png"
     },
     {
         "id": 8,
@@ -69,7 +69,7 @@
         "price": "$69.00",
         "rating": 4.7,
         "tag": "Best Seller",
-        "image": "fake_clothes/8.png"
+        "image": "clothes/8.png"
     },
     {
         "id": 9,
@@ -78,7 +78,7 @@
         "price": "$29.00",
         "rating": 5.0,
         "tag": "Limited",
-        "image": "fake_clothes/9.png"
+        "image": "clothes/9.png"
     },
     {
         "id": 10,
@@ -87,7 +87,7 @@
         "price": "$55.00",
         "rating": 4.2,
         "tag": "",
-        "image": "fake_clothes/10.png"
+        "image": "clothes/10.png"
     },
     {
         "id": 11,
@@ -96,7 +96,7 @@
         "price": "$29.00",
         "rating": 4.4,
         "tag": "",
-        "image": "fake_clothes/11.png"
+        "image": "clothes/11.png"
     },
     {
         "id": 12,
@@ -105,6 +105,6 @@
         "price": "$59.00",
         "rating": 3.7,
         "tag": "",
-        "image": "fake_clothes/12.png"
+        "image": "clothes/12.png"
     }
 ]

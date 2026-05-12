@@ -1,0 +1,41 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/Users/chenilynjoyespineda/Classes/cosc480/COSC480_Final_Project/contracts/OrderReceipt.sol": {
+      "lastModificationDate": 1778609914404,
+      "contentHash": "7113e44cead06188700c57e34a37c8b5",
+      "sourceName": "contracts/OrderReceipt.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "OrderReceipt"
+      ]
+    }
+  }
+}

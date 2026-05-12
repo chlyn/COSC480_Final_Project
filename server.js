@@ -7,6 +7,8 @@ const bcrypt = require("bcrypt");                                         // Bcr
 const nodemailer = require("nodemailer");                                 // Nodemailer allows you to send emails from your server
 const open = (...args) => import("open").then((m) => m.default(...args)); // Open automatically opens the browser when the server starts
 const path = require("path");                                             // Node's path module builds file paths accross the os
+const { ethers } = require("ethers");
+const crypto = require("crypto");
 
 // Loading environment variables from the .env file
 require("dotenv").config();                                            
@@ -21,7 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));                  // All
 app.use(express.json());                                                  // Allows express to read JSON request bodies (EX: fetching /api/login)
 
 // Sequelize database connection and models
-const { sequelize, User, PasswordResetCode } = require("./models");       // Importing the Sequelize instance from the models folder (already configured using config.js and .env)
+const { sequelize, User, PasswordResetCode, Product } = require("./models");       // Importing the Sequelize instance from the models folder (already configured using config.js and .env)
 
 // Testing the connection to the MySQL database
 sequelize.authenticate()
@@ -36,6 +38,22 @@ const transporter = nodemailer.createTransport({
     pass: process.env.MAIL_PASS,
   },
 });
+
+// Web3 provider, wallet, and smart contract setup
+const provider = new ethers.providers.JsonRpcProvider(process.env.API_URL);
+
+const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+
+const orderReceiptAbi = [
+  "function createReceipt(uint256 _orderId, string _buyerHash, uint256 _totalCents, uint256 _itemCount, string _orderHash) public",
+  "event OrderPlaced(uint256 indexed orderId, string buyerHash, uint256 totalCents, uint256 itemCount, string orderHash, uint256 timestamp)"
+];
+
+const orderReceiptContract = new ethers.Contract(
+  process.env.CONTRACT_ADDRESS,
+  orderReceiptAbi,
+  wallet
+);
 
 
 
@@ -393,6 +411,137 @@ app.post("/api/new-password", async (req, res) => {
   }
 
 });
+
+
+// -------------------------------------------------------------------------------------------------------------------------------
+// PLACE ORDER WEB3 RECEIPT //
+
+app.post("/api/place-order", async (req, res) => {
+  try {
+    const { user, cartItems, total } = req.body;
+
+    if (!user || !user.email || !Array.isArray(cartItems) || cartItems.length === 0) {
+      return res.status(400).json({
+        ok: false,
+        message: "Missing order information",
+      });
+    }
+
+    const orderId = Date.now();
+
+    const buyerHash = hashValue(user.email);
+
+    const itemCount = cartItems.reduce((sum, item) => {
+      return sum + Number(item.quantity || 0);
+    }, 0);
+
+    const totalCents = Math.round(Number(total) * 100);
+
+    const orderHash = hashValue(JSON.stringify({
+      orderId,
+      buyerHash,
+      cartItems,
+      totalCents,
+    }));
+
+    const tx = await orderReceiptContract.createReceipt(
+      orderId,
+      buyerHash,
+      totalCents,
+      itemCount,
+      orderHash
+    );
+
+    const receipt = await tx.wait();
+
+    const etherscanUrl = `https://sepolia.etherscan.io/tx/${receipt.transactionHash}`;
+
+    return res.json({
+      ok: true,
+      message: "Order placed and receipt saved on blockchain",
+      orderId,
+      transactionHash: receipt.transactionHash,
+      etherscanUrl,
+    });
+
+  } catch (err) {
+    console.error("Web3 order error:", err);
+
+    return res.status(500).json({
+      ok: false,
+      message: "Order could not be saved on blockchain",
+    });
+  }
+});
+
+
+// -------------------------------------------------------------------------------------------------------------------------------
+// PRODUCTS //
+
+app.get("/api/products", async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      order: [["id", "ASC"]],
+    });
+
+    return res.json(products);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ ok: false, message: "Could not load products" });
+  }
+});
+
+
+// -------------------------------------------------------------------------------------------------------------------------------
+// UPDATE PROFILE //
+
+app.post("/api/update-profile", async (req, res) => {
+  try {
+    const { currentEmail, firstname, lastname, email } = req.body;
+
+    if (!currentEmail || !firstname || !lastname || !email) {
+      return res.status(400).json({ ok: false, message: "Missing required fields" });
+    }
+
+    const existingUser = await User.findOne({ where: { email: currentEmail } });
+
+    if (!existingUser) {
+      return res.status(404).json({ ok: false, message: "User not found" });
+    }
+
+    await existingUser.update({ firstname, lastname, email });
+
+    return res.json({
+      ok: true,
+      user: {
+        firstname: existingUser.firstname,
+        lastname: existingUser.lastname,
+        email: existingUser.email,
+        major: existingUser.major,
+        minor: existingUser.minor,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ ok: false, message: "Could not update profile" });
+  }
+});
+
+
+
+// -------------------------------------------------------------------------------------------------------------------------------
+// HELPERS //
+
+function hashValue(value) {
+  return crypto
+    .createHash("sha256")
+    .update(String(value))
+    .digest("hex");
+}
+
+function priceToCents(price) {
+  return Math.round(Number(String(price).replace("$", "")) * 100);
+}
 
 
 

@@ -28,6 +28,7 @@ const STORAGE_KEYS = {
   favorites: "favorites",         // Favorite product ids
   cart: "cart",                   // Cart items
   checkoutAddress: "checkoutAddress", // Checkout shipping address
+  orders: "orders",               // Placed orders
 };
 
 // Storing main HTML page containers
@@ -794,6 +795,11 @@ async function handleNewPasswordSubmit(e) {
 /* PRODUCTS */
 
 const productList = document.querySelector("#product-list");
+const categoryTitle = document.querySelector(".category-title");
+const categoryNavButtons = document.querySelectorAll(".nav-btn[data-category]");
+const filtersClearBtn = document.querySelector(".filters-clear-btn");
+const searchInput = document.querySelector('.search input[name="search"]');
+const searchClearBtn = document.querySelector("#search-clear-btn");
 const productPageContent = document.querySelector("#product-details");
 const productRecommendedProducts = document.querySelector(".product-recommended-products");
 const cartRecommendedProducts = document.querySelector(".cart-recommended-products");
@@ -811,15 +817,30 @@ const deliveryAddress = document.querySelector("#delivery-address");
 const addressModal = document.querySelector("#address-modal");
 const addressForm = document.querySelector("#address-form");
 const paymentDetails = document.querySelector("#payment-details");
+const profilePage = document.querySelector("#profile-page");
+const profileAccountCard = document.querySelector("#profile-account-card");
+const profileOrdersList = document.querySelector("#profile-orders-list");
+const orderConfirmationModal = document.querySelector("#order-confirmation-modal");
+const orderConfirmationBody = document.querySelector("#order-confirmation-body");
+const profileEditModal = document.querySelector("#profile-edit-modal");
+const profileEditForm = document.querySelector("#profile-edit-form");
+const profilePasswordModal = document.querySelector("#profile-password-modal");
+const profilePasswordForm = document.querySelector("#profile-password-form");
 const favoritesPage = document.querySelector("#favorites-page");
 const favoritesList = document.querySelector("#favorites-list");
 const backToCategoryBtn = document.querySelector(".back-to-category-btn");
 const cartNavBtn = document.querySelector(".cart-nav-btn");
 const favoritesNavBtn = document.querySelector(".favorites-nav-btn");
+const profileNavBtn = document.querySelector(".profile-nav-btn");
 
 let allProducts = [];
+let activeCategory = "women";
+let selectedTypes = [];
+let selectedTags = [];
+let searchTerm = "";
 let favoriteProductIds = getFavoriteProductIds();
 let cartItems = getCartItems();
+let orders = getOrders();
 let checkoutAddress = getCheckoutAddress();
 let selectedPaymentOption = "";
 let pendingRemoveCartItemId = null;
@@ -878,6 +899,20 @@ function getCartItems() {
 
 function saveCartItems() {
   localStorage.setItem(STORAGE_KEYS.cart, JSON.stringify(cartItems));
+}
+
+function getOrders() {
+  const stored = localStorage.getItem(STORAGE_KEYS.orders);
+  return stored ? JSON.parse(stored) : [];
+}
+
+function saveOrders() {
+  localStorage.setItem(STORAGE_KEYS.orders, JSON.stringify(orders));
+}
+
+function addOrder(order) {
+  orders.unshift(order);
+  saveOrders();
 }
 
 function getProductById(productId) {
@@ -1007,18 +1042,80 @@ function getOrderSummaryMarkup(showCheckoutButton = false) {
 async function loadProducts() {
   if (!productList) return;
 
-  const response = await fetch("products.json");
-  allProducts = await response.json();
+  try {
+    const response = await fetch("/api/products");
+    const products = await response.json();
+    allProducts = Array.isArray(products) && products.length > 0 ? products : [];
+  } catch {
+    allProducts = [];
+  }
 
-  renderProducts(allProducts);
+  if (allProducts.length === 0) {
+    const response = await fetch("products.json");
+    allProducts = await response.json();
+  }
+
+  applyProductFilters();
 }
 
 function renderProducts(products) {
   productList.innerHTML = renderProductCards(products);
 }
 
+function normalizeProductType(type) {
+  const value = String(type || "").toLowerCase();
+  if (["top", "tops", "shirt", "sweater", "jacket"].includes(value)) return "top";
+  if (["bottom", "bottoms", "pants", "skirt", "shorts"].includes(value)) return "bottom";
+  if (["shoe", "shoes", "sneakers", "boots"].includes(value)) return "shoes";
+  if (["dress", "dresses"].includes(value)) return "dress";
+  if (["accessory", "accessories", "bag", "bags"].includes(value)) return "accessory";
+  return value;
+}
+
+function isProductInActiveCategory(product) {
+  const category = String(product.category || "women").toLowerCase();
+
+  if (activeCategory === "sales") {
+    return category === "sales" || String(product.tag || "").toLowerCase().includes("off");
+  }
+
+  return category === activeCategory;
+}
+
+function applyProductFilters() {
+  let products = allProducts.filter(isProductInActiveCategory);
+
+  if (selectedTypes.length > 0) {
+    products = products.filter((product) => selectedTypes.includes(normalizeProductType(product.type)));
+  }
+
+  if (selectedTags.length > 0) {
+    products = products.filter((product) => selectedTags.includes(product.tag));
+  }
+
+  if (searchTerm) {
+    const query = searchTerm.toLowerCase();
+    products = products.filter((product) => (
+      product.name.toLowerCase().includes(query) ||
+      String(product.description || "").toLowerCase().includes(query) ||
+      String(product.type || "").toLowerCase().includes(query)
+    ));
+  }
+
+  if (categoryTitle) {
+    categoryTitle.textContent = activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1);
+  }
+
+  if (searchClearBtn) {
+    searchClearBtn.classList.toggle("hidden", !searchTerm);
+  }
+
+  renderProducts(products);
+}
+
 function renderProductCards(products) {
   return products.map((product) => {
+    const hasImage = Boolean(product.image);
     return `
       <div class="product-card" data-product-id="${product.id}">
 
@@ -1030,7 +1127,13 @@ function renderProductCards(products) {
             </div>
           ` : ""}
 
-          <img src="${product.image}" alt="${product.name}"/>
+          ${hasImage ? `
+            <img src="${product.image}" alt="${product.name}"/>
+          ` : `
+            <div class="product-image-placeholder">
+              <span>${product.name}</span>
+            </div>
+          `}
 
         </div>
 
@@ -1239,6 +1342,72 @@ function renderCheckout() {
   checkoutSummary.innerHTML = getOrderSummaryMarkup(false);
 }
 
+function getOrderItemsSnapshot() {
+  return cartItems
+    .map((item) => {
+      const product = getProductById(item.productId);
+      if (!product) return null;
+
+      return {
+        name: product.name,
+        type: product.type,
+        price: product.price,
+        image: product.image,
+        color: item.color,
+        size: item.size,
+        quantity: item.quantity,
+      };
+    })
+    .filter(Boolean);
+}
+
+function getOrderSummarySnapshot() {
+  const totals = getCartTotals();
+  return {
+    itemCount: totals.itemCount,
+    itemSubtotal: totals.itemSubtotal,
+    shipping: totals.shipping,
+    subtotal: totals.subtotal,
+    tax: totals.tax,
+    total: totals.total,
+  };
+}
+
+function renderOrderConfirmation(order) {
+  if (!orderConfirmationBody) return;
+
+  orderConfirmationBody.innerHTML = `
+    <div class="order-confirmation-section">
+      <h4>Shipping information</h4>
+      <p>${order.shipping.name}</p>
+      <p>${order.shipping.street}</p>
+      <p>${order.shipping.city}, ${order.shipping.state} ${order.shipping.zip}</p>
+      <p>${order.deliveryDate}</p>
+    </div>
+
+    <div class="order-confirmation-section">
+      <h4>Order summary</h4>
+      <div class="summary-row">
+        <span>Items</span>
+        <span>${order.summary.itemCount}</span>
+      </div>
+      <div class="summary-row">
+        <span>Order total</span>
+        <span>${formatCurrency(order.summary.total)}</span>
+      </div>
+    </div>
+
+    <div class="order-confirmation-section">
+      <h4>Etherscan receipt</h4>
+      <a class="text-link etherscan-link" href="${order.etherscanUrl}" target="_blank" rel="noopener noreferrer">
+        <span class="link-text">Open Etherscan receipt</span>
+      </a>
+    </div>
+  `;
+
+  orderConfirmationModal?.classList.remove("hidden");
+}
+
 function renderPaymentDetails() {
   if (!paymentDetails) return;
 
@@ -1418,6 +1587,67 @@ function setupProductClicks() {
   });
 }
 
+function setupCategoryControls() {
+  categoryNavButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      activeCategory = button.dataset.category;
+      categoryNavButtons.forEach((navButton) => navButton.classList.toggle("active", navButton === button));
+      selectedTypes = [];
+      selectedTags = [];
+      searchTerm = "";
+      if (searchInput) searchInput.value = "";
+      document.querySelectorAll('.filter-checkbox input[name="category"]').forEach((input) => input.checked = false);
+      document.querySelectorAll(".tag-option, .color-option, .size-option").forEach((option) => option.classList.remove("selected"));
+      showCategoryPage();
+      applyProductFilters();
+    });
+  });
+
+  document.querySelectorAll('.filter-checkbox input[name="category"]').forEach((input) => {
+    input.addEventListener("change", () => {
+      selectedTypes = Array.from(document.querySelectorAll('.filter-checkbox input[name="category"]:checked'))
+        .map((checkedInput) => checkedInput.value);
+      applyProductFilters();
+    });
+  });
+
+  document.querySelectorAll(".tag-option").forEach((button) => {
+    button.addEventListener("click", () => {
+      button.classList.toggle("selected");
+      selectedTags = Array.from(document.querySelectorAll(".tag-option.selected"))
+        .map((tagButton) => tagButton.dataset.tag);
+      applyProductFilters();
+    });
+  });
+
+  document.querySelectorAll(".color-option, .size-option").forEach((button) => {
+    button.addEventListener("click", () => {
+      button.classList.toggle("selected");
+    });
+  });
+
+  searchInput?.addEventListener("input", () => {
+    searchTerm = searchInput.value.trim();
+    applyProductFilters();
+  });
+
+  searchClearBtn?.addEventListener("click", () => {
+    searchTerm = "";
+    if (searchInput) searchInput.value = "";
+    applyProductFilters();
+  });
+
+  filtersClearBtn?.addEventListener("click", () => {
+    selectedTypes = [];
+    selectedTags = [];
+    searchTerm = "";
+    if (searchInput) searchInput.value = "";
+    document.querySelectorAll('.filter-checkbox input[name="category"]').forEach((input) => input.checked = false);
+    document.querySelectorAll(".tag-option, .color-option, .size-option").forEach((option) => option.classList.remove("selected"));
+    applyProductFilters();
+  });
+}
+
 function showProductPage(product) {
   showStorePage(productPage);
 
@@ -1432,7 +1662,13 @@ function showProductPage(product) {
     <div class="product-detail" data-product-id="${product.id}">
 
       <div class="product-detail-image">
-        <img src="${product.image}" alt="${product.name}"/>
+        ${product.image ? `
+          <img src="${product.image}" alt="${product.name}"/>
+        ` : `
+          <div class="product-image-placeholder product-detail-placeholder">
+            <span>${product.name}</span>
+          </div>
+        `}
       </div>
 
       <div class="product-detail-info">
@@ -1663,6 +1899,203 @@ function setupFavoritesPage() {
   });
 }
 
+function renderProfile() {
+  const user = getCurrentUser();
+
+  if (profileAccountCard) {
+    if (user) {
+      const fullName = `${user.firstname || ""} ${user.lastname || ""}`.trim() || "Rouge shopper";
+      profileAccountCard.innerHTML = `
+        <div class="profile-card-header">
+          <h3>Account</h3>
+        </div>
+        <div class="profile-account-details">
+          <span class="profile-account-name">${fullName}</span>
+          <span>${user.email || ""}</span>
+        </div>
+        <div class="profile-actions">
+          <button class="modal-cancel-btn profile-edit-btn" type="button">Edit profile</button>
+          <button class="modal-cancel-btn profile-change-password-btn" type="button">Change password</button>
+          <button class="modal-remove-btn profile-logout-btn" type="button">Log out</button>
+        </div>
+      `;
+    } else {
+      profileAccountCard.innerHTML = `
+        <div class="profile-card-header">
+          <h3>Account</h3>
+        </div>
+        <p class="profile-empty-text">Login to see your profile and order history.</p>
+        <button class="form-btn profile-login-btn" type="button">Login</button>
+      `;
+    }
+  }
+
+  if (!profileOrdersList) return;
+
+  if (orders.length === 0) {
+    profileOrdersList.classList.add("is-empty");
+    profileOrdersList.innerHTML = `
+      <div class="profile-empty-state">
+        <span class="material-icons">receipt_long</span>
+        <span>No orders yet</span>
+      </div>
+    `;
+    return;
+  }
+
+  profileOrdersList.classList.remove("is-empty");
+  profileOrdersList.innerHTML = orders.map((order) => `
+    <div class="profile-order-row">
+      <div>
+        <span class="profile-order-title">Order ${order.id}</span>
+        <span class="profile-order-meta">${order.date} · ${order.summary.itemCount} item(s)</span>
+      </div>
+      <span class="profile-order-total">${formatCurrency(order.summary.total)}</span>
+      <a class="text-link etherscan-link" href="${order.etherscanUrl}" target="_blank" rel="noopener noreferrer">
+        <span class="link-text">Etherscan receipt</span>
+      </a>
+    </div>
+  `).join("");
+}
+
+function setupProfilePage() {
+  profileNavBtn?.addEventListener("click", () => {
+    renderProfile();
+    showStorePage(profilePage);
+  });
+
+  profilePage?.addEventListener("click", (e) => {
+    if (e.target.closest(".profile-login-btn")) {
+      navigate(ROUTES.login);
+      showSection("login");
+      return;
+    }
+
+    if (e.target.closest(".profile-edit-btn")) {
+      const user = getCurrentUser();
+      if (!user || !profileEditForm) return;
+      profileEditForm.elements.firstname.value = user.firstname || "";
+      profileEditForm.elements.lastname.value = user.lastname || "";
+      profileEditForm.elements.email.value = user.email || "";
+      profileEditModal?.classList.remove("hidden");
+      return;
+    }
+
+    if (e.target.closest(".profile-change-password-btn")) {
+      const user = getCurrentUser();
+      if (user && profilePasswordForm) {
+        profilePasswordForm.elements.email.value = user.email || "";
+      }
+      profilePasswordModal?.classList.remove("hidden");
+      return;
+    }
+
+    if (e.target.closest(".profile-logout-btn")) {
+      clearCurrentUser();
+      renderProfile();
+      return;
+    }
+  });
+
+  profileEditModal?.addEventListener("click", (e) => {
+    if (
+      e.target === profileEditModal ||
+      e.target.closest(".profile-edit-close-btn") ||
+      e.target.closest(".profile-edit-cancel-btn")
+    ) {
+      profileEditModal.classList.add("hidden");
+    }
+  });
+
+  profileEditForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const currentUser = getCurrentUser();
+    const data = getFormData(profileEditForm);
+    const updatedUser = { ...currentUser, ...data };
+
+    try {
+      await postJSON("/api/update-profile", {
+        currentEmail: currentUser.email,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        email: data.email,
+      });
+    } catch {
+      // Local profile still updates so the UI remains usable offline.
+    }
+
+    saveCurrentUser(updatedUser);
+    populateHome(updatedUser);
+    renderProfile();
+    profileEditModal?.classList.add("hidden");
+  });
+
+  profilePasswordModal?.addEventListener("click", (e) => {
+    if (
+      e.target === profilePasswordModal ||
+      e.target.closest(".profile-password-close-btn") ||
+      e.target.closest(".profile-password-cancel-btn")
+    ) {
+      profilePasswordModal.classList.add("hidden");
+    }
+  });
+
+  profilePasswordModal?.addEventListener("click", async (e) => {
+    if (!e.target.closest(".profile-send-code-btn") || !profilePasswordForm) return;
+    const email = profilePasswordForm.elements.email.value.trim();
+    if (!email) {
+      showToast("error", "Please enter your email");
+      return;
+    }
+    const { res, data } = await postJSON("/api/forgot-password", { email });
+    if (!res.ok || !data.ok) {
+      showToast("error", data.message || "Could not send code");
+      return;
+    }
+    showToast("success", "Verification code sent");
+  });
+
+  profilePasswordForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const body = getFormData(profilePasswordForm);
+
+    const verification = await postJSON("/api/verification", {
+      email: body.email,
+      code: body.code,
+    });
+
+    if (!verification.res.ok || !verification.data.ok) {
+      showToast("error", verification.data.message || "Invalid verification code");
+      return;
+    }
+
+    const passwordUpdate = await postJSON("/api/new-password", {
+      email: body.email,
+      newPassword: body.newPassword,
+      confirmPassword: body.confirmPassword,
+    });
+
+    if (!passwordUpdate.res.ok || !passwordUpdate.data.ok) {
+      showToast("error", passwordUpdate.data.message || "Could not update password");
+      return;
+    }
+
+    profilePasswordForm.reset();
+    profilePasswordModal?.classList.add("hidden");
+    showToast("success", "Password updated successfully");
+  });
+
+  orderConfirmationModal?.addEventListener("click", (e) => {
+    if (
+      e.target === orderConfirmationModal ||
+      e.target.closest(".order-confirmation-close-btn") ||
+      e.target.closest(".order-confirmation-done-btn")
+    ) {
+      orderConfirmationModal.classList.add("hidden");
+    }
+  });
+}
+
 function openRemoveCartModal(cartItemId) {
   pendingRemoveCartItemId = Number(cartItemId);
   removeCartModal?.classList.remove("hidden");
@@ -1745,7 +2178,7 @@ function closeAddressModal() {
 }
 
 function setupCheckoutPage() {
-  checkoutPage?.addEventListener("click", (e) => {
+  checkoutPage?.addEventListener("click", async (e) => {
     if (e.target.closest(".checkout-back-cart-btn")) {
       renderCart();
       renderCartRecommendations();
@@ -1769,12 +2202,58 @@ function setupCheckoutPage() {
     }
 
     if (e.target.closest(".place-order-btn")) {
-      if (e.target.closest(".place-order-btn").disabled) return;
-      cartItems = [];
-      saveCartItems();
-      renderCart();
-      showToast("success", "Order placed");
-      showCategoryPage();
+      const placeOrderButton = e.target.closest(".place-order-btn");
+      if (placeOrderButton.disabled) return;
+
+      try {
+        placeOrderButton.disabled = true;
+        placeOrderButton.textContent = "Placing order...";
+
+        const totals = getCartTotals();
+        const orderItems = getOrderItemsSnapshot();
+        const orderSummarySnapshot = getOrderSummarySnapshot();
+
+        const { res, data } = await postJSON("/api/place-order", {
+          user: getCurrentUser(),
+          cartItems,
+          total: totals.total,
+        });
+
+        if (!res.ok || !data.ok) {
+          showToast("error", data.message || "Order could not be placed");
+          placeOrderButton.disabled = false;
+          placeOrderButton.textContent = "Place Order";
+          return;
+        }
+
+        const order = {
+          id: `#${Date.now()}`,
+          date: new Date().toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          }),
+          shipping: { ...checkoutAddress },
+          deliveryDate: getEstimatedDeliveryDate(),
+          items: orderItems,
+          summary: orderSummarySnapshot,
+          etherscanUrl: data.etherscanUrl || "https://sepolia.etherscan.io/tx/0xa1db96bdb213dcaf2b0924d3529dfdfc78344d3bc352f25925d01ea72c5ff442",
+        };
+        addOrder(order);
+
+        cartItems = [];
+        saveCartItems();
+        renderCart();
+
+        showCategoryPage();
+        renderOrderConfirmation(order);
+
+      } catch (err) {
+        console.error(err);
+        showToast("error", "Order could not be placed");
+        placeOrderButton.disabled = false;
+        placeOrderButton.textContent = "Place Order";
+      }
     }
   });
 
@@ -1840,6 +2319,7 @@ function init() {
   setupFormHandlers();
   loadRoute();
   loadProducts();
+  setupCategoryControls();
   setupProductClicks();
   setupProductPageBackButton();
   setupCartButtons();
@@ -1847,6 +2327,7 @@ function init() {
   setupFavoritesPage();
   setupCartPage();
   setupCheckoutPage();
+  setupProfilePage();
 }
 
 // Starting the app
